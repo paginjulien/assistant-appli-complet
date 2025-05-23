@@ -1,81 +1,108 @@
 import { useState } from 'react'
+import logo from './logo.png'
 
 export default function App() {
   const [message, setMessage] = useState('')
   const [transcription, setTranscription] = useState('')
-  const [file, setFile] = useState(null)
   const [gptResponse, setGptResponse] = useState('')
   const [recording, setRecording] = useState(false)
+  const [file, setFile] = useState(null)
 
   const handleIntent = (intent) => {
-    setMessage(`✅ Intention détectée : ${intent}`)
-    // Simulation GPT
+    setMessage(`✅ Intention : ${intent}`)
     setTimeout(() => {
-      setGptResponse(`Voici ce que je vous propose pour : ${intent}`)
-    }, 1000)
+      setGptResponse(`Réponse générée par l'assistant pour "${intent}".`)
+    }, 800)
   }
 
   const toggleRecording = () => {
     setRecording(!recording)
     if (!recording) {
-      setTranscription('Texte vocal simulé ici...')
+      setTranscription('Texte simulé depuis la voix...')
     }
   }
 
-  return (
-    <div style={{ fontFamily: 'Arial', padding: '2rem', maxWidth: 800, margin: '0 auto' }}>
-      <h1 style={{ color: '#fcd35d', marginBottom: '1rem' }}>
-        <span role="img" aria-label="mic">🎙️</span> Assistant JS-INNOV.IA
-      </h1>
+  const sendMessage = () => {
+    setMessage('📨 Message envoyé à l’assistant IA.')
+    setGptResponse('Réponse de ChatGPT : voici un exemple d’email généré...')
+  }
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '0.5rem', marginBottom: '1.5rem' }}>
-        <button onClick={() => handleIntent('ajouter-rdv')}>Ajouter RDV</button>
-        <button onClick={() => handleIntent('relance-jour')}>Relances</button>
-        <button onClick={() => handleIntent('creer-tache')}>Tâche</button>
-        <button onClick={() => handleIntent('envoyer-email')}>Email</button>
-        <button onClick={() => handleIntent('reseaux-sociaux')}>Réseaux</button>
-        <button onClick={() => handleIntent('tarification')}>Tarif</button>
-        <button onClick={() => handleIntent('dela')}>DELA</button>
-        <button onClick={() => handleIntent('arces')}>Arces</button>
-        <button onClick={() => handleIntent('epargne')}>Épargne</button>
-        <button onClick={() => handleIntent('nouveau-client')}>Nouveau client</button>
-        <button onClick={() => handleIntent('sinistre')}>Sinistre</button>
+  const buttonList = [
+    'ajouter-rdv', 'relance-jour', 'creer-tache', 'envoyer-email',
+    'reseaux-sociaux', 'tarification', 'dela', 'arces', 'epargne',
+    'nouveau-client', 'sinistre', 'salesforce-document'
+  ]
+
+  return (
+    <div style={{ fontFamily: 'sans-serif', maxWidth: '850px', margin: '0 auto', padding: '2rem', textAlign: 'center' }}>
+      <img src={logo} alt="Logo JS-INNOV.IA" style={{ width: '120px', marginBottom: '1rem' }} />
+      <h1 style={{ color: '#fcd35d', marginBottom: '1rem' }}>🎙️ Assistant JS-INNOV.IA</h1>
+
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '1rem', marginBottom: '1.5rem' }}>
+        {buttonList.map(intent => (
+          <button key={intent} onClick={() => handleIntent(intent)} style={{
+            backgroundColor: '#311947',
+            color: 'white',
+            padding: '0.7rem',
+            borderRadius: '1rem',
+            border: 'none',
+            boxShadow: '0 0 10px #45205f',
+            cursor: 'pointer',
+            transition: '0.3s'
+          }}>
+            {intent.replace('-', ' ')}
+          </button>
+        ))}
       </div>
 
-      <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
-        <button
-          onClick={toggleRecording}
-          style={{
-            background: recording ? '#ff4d4d' : '#333',
-            borderRadius: '50%',
-            width: '50px',
-            height: '50px',
-            fontSize: '20px',
-            color: '#fff',
-            border: 'none',
-            animation: recording ? 'pulse 1s infinite' : 'none'
-          }}
-        >
-          🎤
-        </button>
+      <div style={{ marginBottom: '1rem' }}>
+        <button onClick={toggleRecording} style={{
+          backgroundColor: recording ? '#ff4d4d' : '#3a185d',
+          width: '60px',
+          height: '60px',
+          fontSize: '20px',
+          borderRadius: '50%',
+          border: 'none',
+          color: 'white',
+          boxShadow: '0 0 10px red'
+        }}>🎤</button>
       </div>
 
       <textarea
         value={transcription}
         onChange={e => setTranscription(e.target.value)}
-        placeholder="Message transcrit ici..."
+        placeholder="Votre message ou transcription..."
         rows={3}
-        style={{ width: '100%', padding: '1rem', borderRadius: '0.5rem', marginBottom: '1rem' }}
+        style={{
+          width: '100%',
+          padding: '1rem',
+          borderRadius: '1rem',
+          marginBottom: '1rem',
+          border: '1px solid #444',
+          background: '#1e1e2f',
+          color: 'white'
+        }}
       />
 
-      <div style={{ marginBottom: '1rem' }}>
+      <div>
         <input type="file" onChange={e => setFile(e.target.files[0])} />
-        {file && <p>📎 Fichier : {file.name}</p>}
+        {file && <p>📎 {file.name}</p>}
       </div>
 
-      <div style={{ marginBottom: '2rem' }}>
-        <p style={{ color: '#3dfc7b', fontWeight: 'bold' }}>{message}</p>
-        <p style={{ backgroundColor: '#292929', padding: '1rem', borderRadius: '0.5rem' }}>{gptResponse}</p>
+      <button onClick={sendMessage} style={{
+        marginTop: '1rem',
+        backgroundColor: '#fcd35d',
+        color: '#140C1C',
+        border: 'none',
+        padding: '0.8rem 2rem',
+        borderRadius: '1rem',
+        fontWeight: 'bold',
+        cursor: 'pointer'
+      }}>Envoyer</button>
+
+      <div style={{ marginTop: '2rem', padding: '1rem', background: '#26203d', borderRadius: '1rem' }}>
+        <p style={{ color: '#b5b5b5' }}>{message}</p>
+        <p><strong>🧠 Réponse IA :</strong><br />{gptResponse}</p>
       </div>
     </div>
   )
