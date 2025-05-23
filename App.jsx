@@ -2,11 +2,20 @@ import { useState } from 'react'
 import logo from './logo.png'
 
 export default function App() {
+  const [authenticated, setAuthenticated] = useState(false)
+  const [pin, setPin] = useState('')
+  const [error, setError] = useState('')
   const [message, setMessage] = useState('')
   const [transcription, setTranscription] = useState('')
   const [gptResponse, setGptResponse] = useState('')
   const [recording, setRecording] = useState(false)
   const [file, setFile] = useState(null)
+
+  const buttonList = [
+    'ajouter-rdv', 'relance-jour', 'creer-tache', 'envoyer-email',
+    'reseaux-sociaux', 'tarification', 'dela', 'arces', 'epargne',
+    'nouveau-client', 'sinistre', 'salesforce-document'
+  ]
 
   const handleIntent = (intent) => {
     setMessage(`✅ Intention : ${intent}`)
@@ -17,9 +26,7 @@ export default function App() {
 
   const toggleRecording = () => {
     setRecording(!recording)
-    if (!recording) {
-      setTranscription('Texte simulé depuis la voix...')
-    }
+    if (!recording) setTranscription('Texte simulé depuis la voix...')
   }
 
   const sendMessage = () => {
@@ -27,11 +34,34 @@ export default function App() {
     setGptResponse('Réponse de ChatGPT : voici un exemple d’email généré...')
   }
 
-  const buttonList = [
-    'ajouter-rdv', 'relance-jour', 'creer-tache', 'envoyer-email',
-    'reseaux-sociaux', 'tarification', 'dela', 'arces', 'epargne',
-    'nouveau-client', 'sinistre', 'salesforce-document'
-  ]
+  const checkPin = () => {
+    if (pin === '0502') {
+      setAuthenticated(true)
+      setError('')
+    } else {
+      setError('Code incorrect.')
+    }
+  }
+
+  if (!authenticated) {
+    return (
+      <div style={{ background: '#140C1C', height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
+        <img src={logo} alt="JS-INNOV.IA" style={{ width: '100px', marginBottom: '1rem' }} />
+        <h2>🔐 Entrez votre code</h2>
+        <input
+          type="password"
+          value={pin}
+          onChange={e => setPin(e.target.value)}
+          placeholder="Code à 4 chiffres"
+          style={{ padding: '0.7rem', fontSize: '1.2rem', textAlign: 'center', marginBottom: '0.5rem', borderRadius: '0.5rem', border: '1px solid #888' }}
+        />
+        <button onClick={checkPin} style={{ padding: '0.6rem 1.5rem', borderRadius: '1rem', border: 'none', backgroundColor: '#fcd35d', color: '#140C1C', fontWeight: 'bold' }}>
+          Déverrouiller
+        </button>
+        {error && <p style={{ color: 'tomato', marginTop: '1rem' }}>{error}</p>}
+      </div>
+    )
+  }
 
   return (
     <div style={{ fontFamily: 'sans-serif', maxWidth: '850px', margin: '0 auto', padding: '2rem', textAlign: 'center' }}>
