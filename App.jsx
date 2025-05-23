@@ -34,7 +34,12 @@ export default function App() {
     setGptResponse('Réponse de ChatGPT : voici un exemple d’email généré...')
   }
 
-  const handleKeyPress = (e, action) => { if (e.key === 'Enter') action(); }\n  const checkPin = () => {
+  
+  const handleKeyPress = (e, action) => {
+    if (e.key === 'Enter') action();
+  }
+
+  const checkPin = () => {
     if (pin === '0502') {
       setAuthenticated(true)
       setError('')
