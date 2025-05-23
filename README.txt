@@ -1,0 +1,1 @@
+Assistant JS-INNOV.IA - Version complète avec tous les fichiers nécessaires au déploiement.
