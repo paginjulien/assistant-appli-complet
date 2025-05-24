@@ -1,1 +1,1 @@
-Assistant JS-INNOV.IA - Version complète avec tous les fichiers nécessaires au déploiement.
+Version complète de l'application Assistant pour Julien P., par JS-INNOV.IA

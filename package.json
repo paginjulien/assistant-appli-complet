@@ -1,6 +1,5 @@
-
 {
-  "name": "js-innovia-test",
+  "name": "assistant-js-innovia-final",
   "version": "1.0.0",
   "scripts": {
     "dev": "vite",
