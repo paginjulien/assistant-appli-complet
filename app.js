@@ -1,0 +1,1 @@
+console.log('Assistant JS-INNOV.IA chargé');
