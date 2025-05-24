@@ -1,1 +1,1 @@
-
+Version complète de l'application Assistant pour Julien P., par JS-INNOV.IA
