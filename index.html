@@ -1,1 +1,184 @@
-<script type="module" src="/src/main.jsx"></script>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assistant Julien P.</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background-color: #1e1e1e;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      max-width: 960px;
+      margin: auto;
+      padding: 20px;
+    }
+    .header {
+      padding: 10px;
+      text-align: center;
+      background: linear-gradient(90deg, #31107a, #bd00d6);
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    .logo-main {
+      height: 100px;
+      margin-bottom: 12px;
+    }
+    .logo-pv {
+      height: 80px;
+      margin: 0 auto 20px auto;
+      display: block;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+      background: #fff;
+      padding: 8px;
+      max-width: 300px;
+    }
+    .buttons-grid button {
+      background-color: #511ca0;
+      color: white;
+      font-weight: bold;
+      border-radius: 30px;
+      padding: 12px 18px;
+      transition: all 0.3s ease-in-out;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+    .message-box {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      color: black;
+    }
+    .send-btn {
+      background-color: #8e2de2;
+    }
+    .micro-btn {
+      background-color: #b30000;
+    }
+    .response-box {
+      background-color: #2c2c2c;
+      padding: 15px;
+      border-radius: 10px;
+      border: 1px solid #444;
+    }
+    .footer {
+      color: #ccc;
+    }
+    .buttons-grid button:hover {
+      background-color: #6d34c8;
+      transform: translateY(-2px);
+    }
+    .buttons-grid button:active,
+    .send-btn:active,
+    .micro-btn:active {
+      background: #999;
+      box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.5);
+      transform: scale(0.97);
+    }
+  </style>
+</head>
+<body>
+  <div class="container" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+    <header class="header">
+      <img src="Js-innov.IA.png" alt="JS-INNOV.IA Logo" class="logo-main">
+    </header>
+
+    <img src="logo-pv-julien.png" alt="P&V Agence de Dour Julien P." class="logo-pv">
+
+    <div class="buttons-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; max-width: 800px; margin: 0 auto;">
+      <button onclick="insertTask('NOUVEAU CLIENT')">NOUVEAU CLIENT</button>
+      <button onclick="insertTask('AJOUTER RDV')">AJOUTER RDV</button>
+      <button onclick="insertTask('CRÉER TÂCHE')">CRÉER TÂCHE</button>
+      <button onclick="insertTask('ENVOYER EMAIL')">ENVOYER EMAIL</button>
+      <button onclick="insertTask('RÉSEAUX SOCIAUX')">RÉSEAUX SOCIAUX</button>
+      <button onclick="insertTask('DELA')">DELA</button>
+      <button onclick="insertTask('RELANCE DU JOUR')">RELANCE DU JOUR</button>
+      <button onclick="insertTask('RAPPEL DE PAIEMENT')">RAPPEL DE PAIEMENT</button>
+      <button onclick="insertTask('MANDAT NON ACTIF')">MANDAT NON ACTIF</button>
+      <button onclick="insertTask('SALESFORCE DOCUMENT')">SALESFORCE DOCUMENT</button>
+      <button onclick="insertTask('ARCES')">ARCES</button>
+      <button onclick="insertTask('ÉPARGNE')">ÉPARGNE</button>
+      <button onclick="insertTask('SINISTRE')">SINISTRE</button>
+      <button onclick="triggerFileUpload()">TÉLÉCHARGER DOCUMENT</button>
+    </div>
+
+    <input type="file" id="file-upload" style="display:none" multiple accept="*/*">
+
+    <div class="message-box" style="max-width: 600px; width: 100%;">
+      <textarea id="message-box" placeholder="Écrire un message à l’assistant..." class="message-field" style="width:100%; height:100px; font-size:16px; padding:10px; border-radius:8px; border:1px solid #ccc;"></textarea>
+      <button class="send-btn" onclick="sendMessage()">Envoyer</button>
+      <button class="micro-btn" title="Enregistrer un message vocal">🎤 Enregistrer<span class="record-circle"></span></button>
+    </div>
+
+    <p class="vocal-status">Aucun message enregistré.</p>
+
+    <div class="response-box" style="max-width: 600px; width: 100%; margin-top: 20px;">
+      <p><strong>Réponse IA :</strong></p>
+      <p class="ia-response">• En attente de réponse.</p>
+    </div>
+
+    <footer class="footer" style="text-align: center; margin-top: 40px;">
+      <p>© 2025 <strong>JS-INNOV.IA</strong> — Assistant pour Julien P. — <a href="#">Mentions légales</a>.</p>
+      <p style="margin-top:10px;">Avec ❤️ par JS-INNOV.IA & Julien P.</p>
+    </footer>
+  </div>
+
+  <script>
+    const messageBox = document.getElementById('message-box');
+    const responseText = document.querySelector('.ia-response');
+
+    function insertTask(task) {
+      const message = `🎯 Nouvelle tâche : ${task}\nMerci d’exécuter cette action.`;
+      messageBox.value = message;
+      messageBox.focus();
+    }
+
+    function triggerFileUpload() {
+      const uploadElement = document.getElementById('file-upload');
+      if (uploadElement && typeof uploadElement.click === 'function') {
+        uploadElement.click();
+      } else {
+        alert('Téléchargement non pris en charge sur ce navigateur.');
+      }
+    }
+
+    async function sendMessage() {
+      const message = messageBox.value.trim();
+      if (!message) return;
+      responseText.textContent = '⏳ Envoi en cours...';
+
+      try {
+        const response = await fetch("/api/gpt", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ message })
+        });
+
+        if (!response.ok) throw new Error("Erreur HTTP: " + response.status);
+
+        const data = await response.json();
+        if (data && data.reply) {
+          responseText.textContent = "💬 Réponse IA : " + data.reply;
+        } else {
+          responseText.textContent = "⚠️ Réponse inattendue.";
+        }
+        messageBox.value = '';
+      } catch (err) {
+        responseText.textContent = '❌ Erreur : ' + err.message;
+      }
+    }
+
+    messageBox.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+  </script>
+</body>
+</html>
