@@ -1,0 +1,9 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/api/gpt",
+      "destination": "https://hook.eu2.make.com/3s9sh3mhcnufiu3i67vmmc9a73mc9wu4"
+    }
+  ]
+}
